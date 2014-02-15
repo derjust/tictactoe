@@ -18,8 +18,13 @@ const num centerY = centerX;
 const num CROSS_RADIUS = BOX_SIZE * 0.4 - 10;
 const num CIRCLE_RADIUS = BOX_SIZE * 0.4 - 10;
 
-final CanvasElement canvas = querySelector("#canvas") as CanvasElement;
+final CanvasElement canvas = querySelector("#board") as CanvasElement;
 final CanvasRenderingContext2D context = canvas.context2D;
+
+final DivElement container = querySelector("#container");
+final DivElement loginView = querySelector("#login");
+final DivElement startscreenView = querySelector("#startscreen");
+final DivElement gameView = querySelector("#game");
 
 int currentMove = 0;
 
@@ -31,6 +36,52 @@ void main() {
   canvas.height = MAX_D;
   canvas.onMouseUp.listen(mouseDown);
   draw(0);
+  
+  querySelector("#submitNickname").onClick.listen(login);
+  querySelector("#joinGame").onClick.listen(joinGame);
+  querySelector("#createGame").onClick.listen(createGame);
+  querySelector("#abort").onClick.listen(abort);
+      
+  
+  container.children.remove(gameView);
+  container.children.remove(startscreenView);
+}
+
+void login(MouseEvent event) {
+  
+  String nickname = querySelector("#nickname").text;
+  //TODO createPlayer()
+  
+  //success
+  container.children.remove(loginView);
+  container.children.add(startscreenView);
+  initStartscreenView();
+  
+}
+
+void initStartscreenView() {
+  
+  //TODO request model data for list of games
+  
+  
+}
+
+void joinGame(MouseEvent event) {
+  //TODO get selected game and join
+}
+
+void createGame(MouseEvent event) {
+  //TODO create a game
+  
+  container.children.remove(startscreenView);
+  container.children.add(gameView);
+}
+
+void abort(MouseEvent event) {
+  //TODO leave game
+  
+  container.children.remove(gameView);
+  container.children.add(startscreenView);
 }
 
 void mouseDown(MouseEvent event) {
