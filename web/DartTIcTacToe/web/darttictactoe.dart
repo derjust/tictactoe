@@ -49,15 +49,9 @@ void main() {
 
 void login(MouseEvent event) {
   
-<<<<<<< HEAD
-  String nickname = querySelector("#nickname").text;
-  nickname="zeeman";
-  client.createPlayer(nickname);
-=======
   InputElement nickname = querySelector("#nickname") as InputElement;
   
   client.createPlayer(nickname.value);
->>>>>>> fb37db1395ff5daf5f48f057ef30f0c20274915c
   
   //success
   container.children.remove(loginView);
