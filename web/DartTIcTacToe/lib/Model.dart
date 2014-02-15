@@ -8,11 +8,11 @@ abstract class Model {
   List<String> getGames();
   
  
-  void setGameId(String gameId);
-  String getGameId();
+  void setGameId(int gameId);
+  int getGameId();
   
-  void setPlayerId(String playerId);
-  String getPlayerId();
+  void setPlayerId(int playerId);
+  int getPlayerId();
   
   Enum getCell(int row, int column);
   setCell(int row, int column, Enum value);

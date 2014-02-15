@@ -25,6 +25,9 @@ class TicTacToeWebResponse {
 	}
 
 	private respond (String msg) {
+		response.addHeader("Access-Control-Allow-Origin", "*, ");
+		response.addHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS");
+		response.addHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 		response.setCharacterEncoding("UTF-8")
 		if (responseFormat == RESPONSE_FORMAT.HTML) {
 			response.setContentType('text/html')

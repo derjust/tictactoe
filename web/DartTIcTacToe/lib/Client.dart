@@ -7,6 +7,7 @@ import 'Model.dart';
 import 'ModelImpl.dart';
 import 'dart:convert';
 import 'Enum.dart';
+import 'dart:async';
 //409
 class BoardPosition {
   int col;
@@ -27,6 +28,7 @@ class Client {
   }
   
   void createPlayer(String name) {
+    info("create player " + name);
       HttpRequest request = new HttpRequest(); // create a new XHR
       
       // add an event handler that is called when the request finishes
@@ -37,19 +39,19 @@ class Client {
             print(request.responseText); // output the response from the server
           
             Map data = JSON.decode(request.responseText);
-            String playerid = data["playerid"];
+            int playerid = data["playerid"];
+            info("created playerid " + playerid.toString());
             model.setPlayerId(playerid);
           
-        } else {
-          throw new Exception(request);
         }
       });
 
       // POST the data to the server
       var url = baseUrl + "/player";
       request.open("POST", url, async: false);
+      request.setRequestHeader("Content-type","application/json");
 
-      String jsonData = '{ name: "'+name+'" }'; 
+      String jsonData = '{ "name": "'+name+'" }'; 
       request.send(jsonData); // perform the async POST
   }
   
@@ -64,19 +66,18 @@ class Client {
           print(request.responseText); // output the response from the server
         
           Map data = JSON.decode(request.responseText);
-          String gameid = data["gameid"];
+          int gameid = data["gameid"];
           model.setGameId(gameid);
         
-      } else {
-        throw new Exception(request);
-      }
+      } 
     });
 
     // POST the data to the server
     var url = baseUrl + " /game";
     request.open("POST", url, async: false);
+    request.setRequestHeader("Content-type","application/json");
 
-    String jsonData = '{ playerid: "'+model.getPlayerId()+'" }'; 
+    String jsonData = '{ "playerid": '+model.getPlayerId().toString()+' }'; 
     request.send(jsonData); // perform the async POST
   }
   
@@ -86,6 +87,7 @@ class Client {
     // POST the data to the server
     var url = baseUrl + "/game/" + gameId;
     request.open("POST", url, async: false);
+    request.setRequestHeader("Content-type","application/json");
     
     var mapData = new Map();
     mapData["playerid"] = model.getPlayerId();
@@ -109,18 +111,19 @@ class Client {
           List<String> games = new List();
           
           var data = JSON.decode(request.responseText);
-          for(var element in data.games ) {
+          for(var element in data ) {
             games.add(element["gameid"]);
           }
+          
+          model.setGames(games);
         
-      } else {
-        throw new Exception(request);
       }
     });
 
     // POST the data to the server
-    var url = baseUrl + " /game";
+    var url = baseUrl + "/game";
     request.open("GET", url, async: false);
+    request.setRequestHeader("Content-type","application/json");
 
     request.send(); // perform the async POST    
   }
@@ -147,8 +150,9 @@ class Client {
     });
 
     // POST the data to the server
-    var url = baseUrl + "/game/" + model.getGameId() + "/move";
+    var url = baseUrl + "/game/" + model.getGameId().toString() + "/move";
     request.open("POST", url, async: false);
+    request.setRequestHeader("Content-type","application/json");
     
     var mapData = new Map();
     mapData["playerid"] = model.getPlayerId();
@@ -161,7 +165,7 @@ class Client {
   }
   
   void updateBoard() {
-    var url = baseUrl + "/game/" + model.getGameId() + "/move";
+    var url = baseUrl + "/game/" + model.getGameId().toString() + "/move";
     HttpRequest request = new HttpRequest(); // create a new XHR
     
     // add an event handler that is called when the request finishes
@@ -189,14 +193,13 @@ RESPONSE: [ moves: { { field: A1, playerid: 123 }, { field: B2, playerid: 456 } 
             }
           }
           
-      } else {
-        throw new Exception(request);
-      }
+      } 
     });
 
     // POST the data to the server
     
     request.open("GET", url, async: false);
+    request.setRequestHeader("Content-type","application/json");
      
     request.send(); // perform the async POST
   }
