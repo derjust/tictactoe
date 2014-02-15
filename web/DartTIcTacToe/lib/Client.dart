@@ -85,7 +85,32 @@ class Client {
   }
   
   void listGames() {
+    HttpRequest request = new HttpRequest(); // create a new XHR
     
+    // add an event handler that is called when the request finishes
+    request.onReadyStateChange.listen((_) {
+      if (request.readyState == HttpRequest.DONE &&
+          (request.status == 200 || request.status == 0)) {
+          // data saved OK.
+          print(request.responseText); // output the response from the server
+          
+          List<String> games = new List();
+          
+          var data = JSON.decode(request.responseText);
+          for(var element in data.games ) {
+            games.add(element["gameid"]);
+          }
+        
+      } else {
+        throw new Exception(request);
+      }
+    });
+
+    // POST the data to the server
+    var url = baseUrl + " /game";
+    request.open("GET", url, async: false);
+
+    request.send(); // perform the async POST    
   }
   
   
@@ -93,6 +118,9 @@ class Client {
     HttpRequest request = new HttpRequest(); // create a new XHR
     
     // add an event handler that is called when the request finishes
+    request.onError.listen((_) {
+      warn("blub");
+    });
     request.onReadyStateChange.listen((_) {
       if (request.readyState == HttpRequest.DONE &&
           (request.status == 204 || request.status == 0)) {
@@ -163,11 +191,11 @@ RESPONSE: [ moves: { { field: A1, playerid: 123 }, { field: B2, playerid: 456 } 
   
   String mapCell(int row, int col) {
     String retValue;
-    if (1 == row) {
+    if (0 == row) {
       retValue = "A";
-    } else if (2 == row) {
+    } else if (1 == row) {
       retValue = "B";
-    } else  if (3 == row) {
+    } else  if (2 == row) {
       retValue ="C";
     }
     
