@@ -65,7 +65,7 @@ class Client {
     // add an event handler that is called when the request finishes
     request.onReadyStateChange.listen((_) {
       if (request.readyState == HttpRequest.DONE &&
-          (request.status == 200 || request.status == 0)) {
+          (request.status == 202 || request.status == 0)) {
           // data saved OK.
           print(request.responseText); // output the response from the server
         
@@ -73,7 +73,10 @@ class Client {
           int gameid = data["gameid"];
           model.setGameId(gameid);
         
-      } 
+      } else {
+        info("state: " + request.readyState.toString());
+        info("status: " + request.status.toString());
+      }
     });
 
     // POST the data to the server
