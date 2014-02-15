@@ -70,10 +70,17 @@ void draw() {
 
 /// Draw a small circle representing a seed centered at (x,y).
 void drawCircle(num x, num y) {
+  x = x + BOX_SIZE / 2;
+  y = y + BOX_SIZE / 2;
+  
+  var gradient = context.createRadialGradient(x, y, CIRCLE_RADIUS - 5, x, y, CIRCLE_RADIUS + 5);
+  gradient.addColorStop(0, 'gray');
+  gradient.addColorStop(1, 'blue');
+  
   context..beginPath()
          ..lineWidth = 10
-         ..strokeStyle = "BLUE"
-         ..arc(x + BOX_SIZE / 2, y + BOX_SIZE / 2, CIRCLE_RADIUS, 0, 2 * PI, false)
+         ..strokeStyle = gradient
+         ..arc(x, y, CIRCLE_RADIUS, 0, 2 * PI, false)
          ..closePath()
          ..stroke();
 }
@@ -81,13 +88,29 @@ void drawCircle(num x, num y) {
 
 /// Draw a small circle representing a seed centered at (x,y).
 void drawCross(num x, num y) {
+  
   x = x + BOX_SIZE / 2;
   y = y + BOX_SIZE / 2;
+  
+  var gradient1 = context.createLinearGradient(x - 5, y - 5, x + 5, y + 5);
+  gradient1.addColorStop(0, 'RED');
+  gradient1.addColorStop(1, 'ORANGE');
+  
+  var gradient2 = context.createLinearGradient(x - 5, y + 5, x + 5, y - 5);
+  gradient2.addColorStop(0, 'RED');
+  gradient2.addColorStop(1, 'ORANGE');
+  
   context..beginPath()
          ..lineWidth = 10
-         ..strokeStyle = "ORANGE"
+         ..strokeStyle = gradient2
          ..moveTo(x - CROSS_RADIUS, y - CROSS_RADIUS)
          ..lineTo(x + CROSS_RADIUS, y + CROSS_RADIUS)
+         ..closePath()
+         ..stroke();
+  
+  context..beginPath()
+         ..lineWidth = 10
+         ..strokeStyle = gradient1
          ..moveTo(x - CROSS_RADIUS, y + CROSS_RADIUS)
          ..lineTo(x + CROSS_RADIUS, y - CROSS_RADIUS)
          ..closePath()
@@ -98,8 +121,15 @@ void drawCross(num x, num y) {
 void drawLine(num x1, num y1, num x2, num y2) {
   context..beginPath()
          ..lineWidth = 10
-         ..fillStyle = "BLACK"
          ..strokeStyle = "BLACK"
+         ..moveTo(x1, y1)
+         ..lineTo(x2, y2)
+         ..closePath()
+         ..stroke();
+  
+  context..beginPath()
+         ..lineWidth = 1
+         ..strokeStyle = "GRAY"
          ..moveTo(x1, y1)
          ..lineTo(x2, y2)
          ..closePath()
