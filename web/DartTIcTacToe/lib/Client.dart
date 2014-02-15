@@ -191,11 +191,11 @@ RESPONSE: [ moves: { { field: A1, playerid: 123 }, { field: B2, playerid: 456 } 
   
   String mapCell(int row, int col) {
     String retValue;
-    if (1 == row) {
+    if (0 == row) {
       retValue = "A";
-    } else if (2 == row) {
+    } else if (1 == row) {
       retValue = "B";
-    } else  if (3 == row) {
+    } else  if (2 == row) {
       retValue ="C";
     }
     
