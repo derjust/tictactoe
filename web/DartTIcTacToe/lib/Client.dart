@@ -146,7 +146,7 @@ class Client {
     });
     request.onReadyStateChange.listen((_) {
       if (request.readyState == HttpRequest.DONE &&
-          (request.status == 204 || request.status == 0)) {
+          (request.status == 202 || request.status == 0)) {
           // data saved OK.
           print("Posted Move"); // output the response from the server
 
@@ -262,7 +262,7 @@ RESPONSE: [ moves: { { field: A1, playerid: 123 }, { field: B2, playerid: 456 } 
  */
         String json = request.responseText;
         var move = JSON.decode(json);
-        move = move[0];
+        
         info("Move: $move");
 
         BoardPosition pos = mapCellBack(move["field"]);
