@@ -39,8 +39,8 @@ class Client {
             print(request.responseText); // output the response from the server
           
             Map data = JSON.decode(request.responseText);
-            String playerid = data["playerid"];
-            info("created playerid " + playerid);
+            int playerid = data["playerid"];
+            info("created playerid " + playerid.toString());
             model.setPlayerId(playerid);
           
         }
@@ -51,9 +51,8 @@ class Client {
       request.open("POST", url, async: false);
       request.setRequestHeader("Content-type","application/json");
 
-      String jsonData = '{ name: "'+name+'" }'; 
-      var response = request.send(jsonData); // perform the async POST
-      info(response);
+      String jsonData = '{ "name": "'+name+'" }'; 
+      request.send(jsonData); // perform the async POST
   }
   
   void createGame() {
@@ -67,7 +66,7 @@ class Client {
           print(request.responseText); // output the response from the server
         
           Map data = JSON.decode(request.responseText);
-          String gameid = data["gameid"];
+          int gameid = data["gameid"];
           model.setGameId(gameid);
         
       } else {
@@ -80,7 +79,7 @@ class Client {
     request.open("POST", url, async: false);
     request.setRequestHeader("Content-type","application/json");
 
-    String jsonData = '{ playerid: "'+model.getPlayerId()+'" }'; 
+    String jsonData = '{ "playerid": '+model.getPlayerId().toString()+' }'; 
     request.send(jsonData); // perform the async POST
   }
   
@@ -153,7 +152,7 @@ class Client {
     });
 
     // POST the data to the server
-    var url = baseUrl + "/game/" + model.getGameId() + "/move";
+    var url = baseUrl + "/game/" + model.getGameId().toString() + "/move";
     request.open("POST", url, async: false);
     request.setRequestHeader("Content-type","application/json");
     
@@ -168,7 +167,7 @@ class Client {
   }
   
   void updateBoard() {
-    var url = baseUrl + "/game/" + model.getGameId() + "/move";
+    var url = baseUrl + "/game/" + model.getGameId().toString() + "/move";
     HttpRequest request = new HttpRequest(); // create a new XHR
     
     // add an event handler that is called when the request finishes

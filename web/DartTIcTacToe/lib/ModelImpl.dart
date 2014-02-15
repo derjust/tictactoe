@@ -8,8 +8,8 @@ import 'package:logging_handlers/logging_handlers_shared.dart';
 
 
 class ModelImpl implements Model {
-  String gameId = "-1";
-  String playerId = "-1";
+  int gameId = -1;
+  int playerId = -1;
   List<String> games = new List();
   
   ModelImpl() {
@@ -25,19 +25,19 @@ class ModelImpl implements Model {
   }  
   
   
-  void setGameId(String gameId) {
+  void setGameId(int gameId) {
     this.gameId = gameId;
   }
   
-  String getGameId() {
+  int getGameId() {
     return this.gameId;
   }
   
-  void setPlayerId(String playerId) {
+  void setPlayerId(int playerId) {
     this.playerId = playerId;
   }
   
-  String getPlayerId() {
+  int getPlayerId() {
     return this.playerId;
   }
   
