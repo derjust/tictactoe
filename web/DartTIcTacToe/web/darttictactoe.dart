@@ -28,7 +28,7 @@ Client client = new Client("http://localhost:58080/tictactoe-web/simple.groovy")
 void main() {
   canvas.width = MAX_D;
   canvas.height = MAX_D;
-  canvas.onClick.listen(mouseDown);
+  canvas.onMouseUp.listen(mouseDown);
   draw(0);
 }
 
@@ -48,6 +48,8 @@ void mouseDown(MouseEvent event) {
     
     currentMove++;
   }
+  
+  draw(0);
 }
 
 int calcRow(int x) {
@@ -74,9 +76,8 @@ void draw(num dt) {
     drawLine(vc + c * BOX_SIZE, 0, c * BOX_SIZE - vc, MAX_D);    
   }
   
-  
-  for (var r = 1; r < rows; r++) {
-    for (var c = 1; c < cols; c++) {
+  for (var r = 0; r < rows; r++) {
+    for (var c = 0; c < cols; c++) {
 
       Enum value = client.getCell(r, c);
       if (value == Enum.O) {
@@ -87,7 +88,7 @@ void draw(num dt) {
     }
   }
       
-  window.requestAnimationFrame(_update);
+ // window.requestAnimationFrame(_update);
 }
 
 /// Draw a small circle representing a seed centered at (x,y).
