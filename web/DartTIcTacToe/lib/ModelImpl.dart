@@ -45,6 +45,7 @@ class ModelImpl implements Model {
   }
   
   void resetCells() {
+    board = new List(3);
     board[0] = [Enum.EMPTY, Enum.EMPTY, Enum.EMPTY];
     board[1] = [Enum.EMPTY, Enum.EMPTY, Enum.EMPTY];
     board[2] = [Enum.EMPTY, Enum.EMPTY, Enum.EMPTY];

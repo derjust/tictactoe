@@ -7,6 +7,7 @@ library sunflower;
 import 'dart:html';
 import 'dart:math';
 import '../lib/Client.dart';
+import '../lib/Enum.dart';
 
 const int MAX_D = 400;
 const int rows = 3;
@@ -22,7 +23,7 @@ final CanvasRenderingContext2D context = canvas.context2D;
 
 int currentMove = 0;
 
-Client client = new Client(null, "http://localhost:58080/tictactoe-web/simple.groovy");
+Client client = new Client("http://localhost:58080/tictactoe-web/simple.groovy");
 
 void main() {
   canvas.width = MAX_D;
@@ -35,12 +36,14 @@ void mouseDown(MouseEvent event) {
   if (event != null) {
     int x = event.offset.x;
     int y = event.offset.y;
+
+    int row = calcRow(y);
+    int col = calcColumn(x);
     
     if(currentMove % 2 == 0) {
-      
-      drawCircle(calcRow(x) * BOX_SIZE, calcColumn(y) * BOX_SIZE);
+      client.setCell(row, col, Enum.X);  
     } else {
-      drawCross(calcRow(x) * BOX_SIZE, calcColumn(y) * BOX_SIZE);
+      client.setCell(row, col, Enum.O);
     }
     
     currentMove++;
@@ -71,6 +74,19 @@ void draw(num dt) {
     drawLine(vc + c * BOX_SIZE, 0, c * BOX_SIZE - vc, MAX_D);    
   }
   
+  
+  for (var r = 1; r < rows; r++) {
+    for (var c = 1; c < cols; c++) {
+
+      Enum value = client.getCell(r, c);
+      if (value == Enum.O) {
+         drawCircle(c * BOX_SIZE, r * BOX_SIZE);
+       } else if (value == Enum.X){
+         drawCross(c * BOX_SIZE, r * BOX_SIZE);
+       }
+    }
+  }
+      
   window.requestAnimationFrame(_update);
 }
 
