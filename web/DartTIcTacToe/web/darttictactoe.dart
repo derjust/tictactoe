@@ -6,6 +6,7 @@ library sunflower;
 
 import 'dart:html';
 import 'dart:math';
+import '../lib/Client.dart';
 
 const int MAX_D = 400;
 const int rows = 3;
@@ -17,16 +18,17 @@ const num CROSS_RADIUS = BOX_SIZE * 0.4 - 10;
 const num CIRCLE_RADIUS = BOX_SIZE * 0.4 - 10;
 
 final CanvasElement canvas = querySelector("#canvas") as CanvasElement;
-final CanvasRenderingContext2D context =
-  canvas.context2D;
+final CanvasRenderingContext2D context = canvas.context2D;
 
 int currentMove = 0;
+
+Client client = new Client(null, "http://localhost:58080/tictactoe-web/simple.groovy");
 
 void main() {
   canvas.width = MAX_D;
   canvas.height = MAX_D;
   canvas.onClick.listen(mouseDown);
-  draw();
+  draw(0);
 }
 
 void mouseDown(MouseEvent event) {
@@ -34,9 +36,8 @@ void mouseDown(MouseEvent event) {
     int x = event.offset.x;
     int y = event.offset.y;
     
-    
-    
     if(currentMove % 2 == 0) {
+      
       drawCircle(calcRow(x) * BOX_SIZE, calcColumn(y) * BOX_SIZE);
     } else {
       drawCross(calcRow(x) * BOX_SIZE, calcColumn(y) * BOX_SIZE);
@@ -55,17 +56,22 @@ int calcColumn(int y) {
 }
 
 /// Draw the complete figure for the current number of seeds.
-void draw() {
+void draw(num dt) {
   context.clearRect(0, 0, MAX_D, MAX_D);
 
+  dt = dt * 0.005;
+  num vr = (dt % 10 - 5).abs();
+  num vc = ((dt*0.8+5) % 10 - 5).abs();
+
   for (var r = 1; r < rows; r++) {
-    drawLine(0, r * BOX_SIZE, MAX_D, r * BOX_SIZE);    
+    drawLine(0, vr + r * BOX_SIZE, dt % 5 + MAX_D, r * BOX_SIZE - vr);    
   }
   
   for (var c = 1; c < cols; c++) {
-    drawLine(c * BOX_SIZE, 0, c * BOX_SIZE, MAX_D);    
+    drawLine(vc + c * BOX_SIZE, 0, c * BOX_SIZE - vc, MAX_D);    
   }
   
+  window.requestAnimationFrame(_update);
 }
 
 /// Draw a small circle representing a seed centered at (x,y).
@@ -124,6 +130,10 @@ void drawLine(num x1, num y1, num x2, num y2) {
          ..strokeStyle = "BLACK"
          ..moveTo(x1, y1)
          ..lineTo(x2, y2)
+         ..shadowBlur=20
+         ..shadowColor="gray"
+         ..shadowOffsetX=8
+         ..shadowOffsetY=3
          ..closePath()
          ..stroke();
   
@@ -134,4 +144,9 @@ void drawLine(num x1, num y1, num x2, num y2) {
          ..lineTo(x2, y2)
          ..closePath()
          ..stroke();
+}
+
+
+void _update(num highResTime) {
+  draw(highResTime);
 }

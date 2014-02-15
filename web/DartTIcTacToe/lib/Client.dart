@@ -1,18 +1,20 @@
 import 'dart:html';
 import 'Model.dart';
+import 'ModelImpl.dart';
 import 'dart:convert';
+import 'Enum.dart';
 
 class Client {
-  String baseUrl = "http://localhost:58080/tictactoe-web/simple.groovy?";
+  String baseUrl;
 
   Model model;
   
-  Client(Model model, String baseUrl) {
+  Client(String baseUrl) {
     if (baseUrl == null || baseUrl.isEmpty) {
       throw new Exception("No baseUrl!");
     }
     this.baseUrl = baseUrl;
-    this.model = model;
+    this.model = new ModelImpl();
   }
   
   void createPlayer(String name) {
@@ -63,9 +65,13 @@ class Client {
   }
   
   
+  void setCell(int row, int col, Enum value) {
+    model.setCell(row, col, value);
+  }
   
-  
-  
+  Enum getCell(int row, int col) {
+    return model.getCell(row, col);
+  }
   
   
 }
