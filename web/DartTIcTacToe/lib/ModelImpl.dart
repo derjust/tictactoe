@@ -8,9 +8,9 @@ import 'package:logging_handlers/logging_handlers_shared.dart';
 
 
 class ModelImpl implements Model {
-  String gameId;
-  String playerId;
-  List<String> games;
+  String gameId = "-1";
+  String playerId = "-1";
+  List<String> games = new List();
   
   ModelImpl() {
     resetCells();

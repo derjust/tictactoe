@@ -23,7 +23,7 @@ final CanvasRenderingContext2D context = canvas.context2D;
 
 int currentMove = 0;
 
-Client client = new Client("http://localhost:58080/tictactoe-web/simple.groovy");
+Client client = new Client("http://192.168.2.24:8080/tictactoe-web/simple.groovy");
 
 void main() {
   startQuickLogging();

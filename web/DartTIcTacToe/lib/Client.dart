@@ -137,6 +137,7 @@ RESPONSE: [ moves: { { field: A1, playerid: 123 }, { field: B2, playerid: 456 } 
  */
           Map data = JSON.decode(request.responseText);
           List moves = data["moves"];
+          model.resetCells();
           for(var aField in moves) {
             
             BoardPosition pos = mapCellBack(aField["field"]);
