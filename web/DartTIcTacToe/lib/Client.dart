@@ -80,8 +80,20 @@ class Client {
     request.send(jsonData); // perform the async POST
   }
   
-  joinGame(int  gameId) {
+  void joinGame(String gameId) {
+    HttpRequest request = new HttpRequest(); // create a new XHR
+
+    // POST the data to the server
+    var url = baseUrl + "/game/" + gameId;
+    request.open("POST", url, async: false);
     
+    var mapData = new Map();
+    mapData["playerid"] = model.getPlayerId();
+
+    String jsonData = JSON.encode(mapData); 
+    
+    request.send(jsonData); // perform the async POST
+        
   }
   
   void listGames() {
