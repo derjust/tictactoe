@@ -3,7 +3,9 @@
 // BSD-style license that can be found in the LICENSE file.
 
 library sunflower;
+
 import 'package:logging_handlers/logging_handlers_shared.dart';
+
 import 'dart:html';
 import 'dart:math';
 import '../lib/Client.dart';
@@ -50,7 +52,8 @@ void main() {
 void login(MouseEvent event) {
   
   String nickname = querySelector("#nickname").text;
-  //TODO createPlayer()
+  
+  client.createPlayer(nickname);
   
   //success
   container.children.remove(loginView);
@@ -60,10 +63,7 @@ void login(MouseEvent event) {
 }
 
 void initStartscreenView() {
-  
-  //TODO request model data for list of games
-  
-  
+  client.listGames();
 }
 
 void joinGame(MouseEvent event) {
@@ -71,7 +71,8 @@ void joinGame(MouseEvent event) {
 }
 
 void createGame(MouseEvent event) {
-  //TODO create a game
+  
+  client.createGame();
   
   container.children.remove(startscreenView);
   container.children.add(gameView);
