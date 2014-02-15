@@ -46,8 +46,6 @@ class Client {
             
             onSuccess(playerid);
             
-        } else {
-          throw new Exception(request);
         }
         
       });
@@ -67,7 +65,7 @@ class Client {
     // add an event handler that is called when the request finishes
     request.onReadyStateChange.listen((_) {
       if (request.readyState == HttpRequest.DONE &&
-          (request.status == 200 || request.status == 0)) {
+          (request.status == 202 || request.status == 0)) {
           // data saved OK.
           print(request.responseText); // output the response from the server
         
@@ -75,7 +73,10 @@ class Client {
           int gameid = data["gameid"];
           model.setGameId(gameid);
         
-      } 
+      } else {
+        info("state: " + request.readyState.toString());
+        info("status: " + request.status.toString());
+      }
     });
 
     // POST the data to the server
@@ -186,19 +187,13 @@ HTTP METHOD GET
 RESPONSE: [ moves: { { field: A1, playerid: 123 }, { field: B2, playerid: 456 } } ]
  */
           Map data = JSON.decode(request.responseText);
-          List moves = data["moves"];
+          Map move = data["moves"];
           model.resetCells();
-          for(var aField in moves) {
-            
-            BoardPosition pos = mapCellBack(aField["field"]);
-
-            if (aField["playerid"].compareTo(model.getPlayerId()) == 0) {
-              model.setCell(pos.row, pos.col, Enum.X);
-            } else {
-              model.setCell(pos.row, pos.col, Enum.O);
-            }
-          }
           
+          int moveid = move["moveid"];
+
+          loadMove(moveid);
+                    
       } 
     });
 
@@ -245,6 +240,43 @@ RESPONSE: [ moves: { { field: A1, playerid: 123 }, { field: B2, playerid: 456 } 
   
   Enum getCell(int row, int col) {
     return model.getCell(row, col);
+  }
+ 
+  void loadMove(int moveId) {
+    var url = baseUrl + "/game/" + model.getGameId().toString() +
+        "/move/$moveId";
+    HttpRequest request = new HttpRequest(); // create a new XHR
+
+    // add an event handler that is called when the request finishes
+    request.onReadyStateChange.listen((_) {
+      if (request.readyState == HttpRequest.DONE && (request.status == 200 ||
+          request.status == 0)) {
+        /*
+URL: /game/{ gameid: 123 }/move
+
+HTTP METHOD GET
+
+RESPONSE: [ moves: { { field: A1, playerid: 123 }, { field: B2, playerid: 456 } } ]
+ */
+        String json = request.responseText;
+        Map move = JSON.decode(json);
+        info("Move: $move");
+
+        BoardPosition pos = mapCellBack(move["field"]);
+
+        if (move["playerid"].compareTo(model.getPlayerId()) == 0) {
+          model.setCell(pos.row, pos.col, Enum.X);
+        } else {
+          model.setCell(pos.row, pos.col, Enum.O);
+        }
+
+      }
+    });
+
+    request.open("GET", url, async: false);
+    request.setRequestHeader("Content-type", "application/json");
+
+    request.send(); // perform the async POST
   }
   
 }
