@@ -47,7 +47,7 @@ class ModelImpl implements Model {
     return board[row][column];
   }
   setCell(int row, int column, Enum value) {
-    debug("Row: " + row + " column " + colum + " value: " + value);
+    info("Row: $row column $column value: $value");
     board[row][column] = value;
   }
   

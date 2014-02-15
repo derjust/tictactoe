@@ -42,17 +42,8 @@ class Client {
       var url = baseUrl + " /player";
       request.open("POST", url, async: false);
 
-      String jsonData = '{ name: "'+name+'" }'; // etc...
+      String jsonData = '{ name: "'+name+'" }'; 
       request.send(jsonData); // perform the async POST
-  }
-  
-  void onDataLoadedCreatePlayer(data) {
-    
-  }
-  
-  void onDataLoaded(String responseText) {
-    var jsonString = responseText;
-    print(jsonString);
   }
   
   int createGame() {
