@@ -3,7 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 library sunflower;
-
+import 'package:logging_handlers/logging_handlers_shared.dart';
 import 'dart:html';
 import 'dart:math';
 import '../lib/Client.dart';
@@ -26,6 +26,7 @@ int currentMove = 0;
 Client client = new Client("http://localhost:58080/tictactoe-web/simple.groovy");
 
 void main() {
+  startQuickLogging();
   canvas.width = MAX_D;
   canvas.height = MAX_D;
   canvas.onMouseUp.listen(mouseDown);
