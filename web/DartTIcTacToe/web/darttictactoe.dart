@@ -16,12 +16,42 @@ const num centerY = centerX;
 const num CROSS_RADIUS = BOX_SIZE * 0.4 - 10;
 const num CIRCLE_RADIUS = BOX_SIZE * 0.4 - 10;
 
+final CanvasElement canvas = querySelector("#canvas") as CanvasElement;
 final CanvasRenderingContext2D context =
-  (querySelector("#canvas") as CanvasElement).context2D;
+  canvas.context2D;
+
+int currentMove = 0;
 
 void main() {
-  (querySelector("#canvas") as CanvasElement)..width = MAX_D..height = MAX_D;
+  canvas.width = MAX_D;
+  canvas.height = MAX_D;
+  canvas.onClick.listen(mouseDown);
   draw();
+}
+
+void mouseDown(MouseEvent event) {
+  if (event != null) {
+    int x = event.offset.x;
+    int y = event.offset.y;
+    
+    
+    
+    if(currentMove % 2 == 0) {
+      drawCircle(calcRow(y) * BOX_SIZE, calcColumn(x) * BOX_SIZE);
+    } else {
+      drawCross(calcRow(y) * BOX_SIZE, calcColumn(x) * BOX_SIZE);
+    }
+    
+    currentMove++;
+  }
+}
+
+int calcRow(int y) {
+  return y ~/ BOX_SIZE;
+}
+
+int calcColumn(int x) {
+  return x ~/ BOX_SIZE;
 }
 
 /// Draw the complete figure for the current number of seeds.
@@ -35,9 +65,7 @@ void draw() {
   for (var c = 1; c < cols; c++) {
     drawLine(c * BOX_SIZE, 0, c * BOX_SIZE, MAX_D);    
   }
-
-  drawCircle(1 * BOX_SIZE, 2 * BOX_SIZE);
-  drawCross(0 * BOX_SIZE, 1 * BOX_SIZE);
+  
 }
 
 /// Draw a small circle representing a seed centered at (x,y).
