@@ -7,8 +7,9 @@ library sunflower;
 import 'dart:html';
 import 'dart:svg';
 
-final SvgElement svg = querySelector("#canvas");
+final SvgElement svg = querySelector("#svg");
 
+int spacing = 50;
 
 getCircle(cx, cy, r){
   CircleElement circle = new CircleElement();
@@ -22,25 +23,7 @@ getCircle(cx, cy, r){
     return circle;
 }
 
-getX(cx, cy, length){
-  SvgElement xElement = new SvgElement.tag('g');
-  LineElement line1 = new LineElement();
-  line1
-    ..setAttribute('x1', (cx - length).toString())
-    ..setAttribute('y1', (cy - length).toString())
-    ..setAttribute('x2', (cx * 2).toString())
-    ..setAttribute('y2', (cy * 2).toString())
-    ..setAttribute('stroke', 'blue');
-  
-  xElement.children.add(line1);
-  
-  return xElement;
-}
-
-getX2(x, y, width, height){
-  print("x=$x y=$y height=$height width=$width");
-  //print("x=" + x + "; y=" + y + "; width=" + width + "; heigth=" + heigth);
-  
+getX(x, y, width, height){
   SvgElement xElement = new SvgElement.tag('g');
   LineElement line1 = new LineElement();
   line1
@@ -69,19 +52,10 @@ getX2(x, y, width, height){
 int currentMove = 0;
 
 void main() {
-  
-  
   drawGrid();
-  
-  
 }
 
 void drawGrid(){
-  
-  
-  
-  int spacing = 50;
-  
   for(int i = 0; i < 3; i++) {
     for (int j = 0; j < 3; j++) {
       
@@ -97,12 +71,12 @@ void drawGrid(){
         if(i < 2 && j > 1) {
           
           int x = int.parse(rect.getAttribute("x")) + int.parse(rect.getAttribute("width"));
-          drawLine2(x.toString(), "0", x.toString(), "150");
+          drawLine(x.toString(), "0", x.toString(), (spacing * 3).toString());
         }
         if(i > 1 && j < 2) {
           int y = int.parse(rect.getAttribute("y")) + int.parse(rect.getAttribute("height"));
           
-          drawLine2("0", y.toString(), "150", y.toString());
+          drawLine("0", y.toString(), (spacing * 3).toString(), y.toString());
         }
           
           rect.onClick.listen(mouseDown);
@@ -112,7 +86,7 @@ void drawGrid(){
   }
 }
 
-void drawLine2(x1, y1, x2, y2) {
+void drawLine(x1, y1, x2, y2) {
   LineElement line = new LineElement();
   
   line
@@ -142,10 +116,8 @@ void mouseDown(MouseEvent event) {
    int width = int.parse(rect.getAttribute("width"));
    int height = int.parse(rect.getAttribute("height"));
    
-   rect.replaceWith(getX2(x1, y1, width, height));
+   rect.replaceWith(getX(x1, y1, width, height));
  }
  
  currentMove++;
-
-  
 }
