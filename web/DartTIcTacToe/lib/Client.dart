@@ -103,6 +103,7 @@ class Client {
     
     request.send(jsonData); // perform the async POST
         
+    model.setGameId(int.parse(gameId));
   }
   
   void listGames( onSuccess(List)) {
