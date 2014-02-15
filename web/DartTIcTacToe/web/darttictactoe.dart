@@ -50,7 +50,7 @@ void main() {
 void login(MouseEvent event) {
   
   String nickname = querySelector("#nickname").text;
-  
+  nickname="zeeman";
   client.createPlayer(nickname);
   
   //success
