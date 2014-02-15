@@ -5,26 +5,56 @@
      BSD-style license that can be found in the LICENSE file. -->
 
 <html>
-  <head>
-    <meta charset="utf-8">
-    <title>Sunflower Demo</title>
-    <link type="text/css" rel="stylesheet" href="darttictactoe.css">
-  </head>
-  <body>
-    <h1>Tic Tac Toe</h1>
+<head>
+<meta charset="utf-8">
+<title>Sunflower Demo</title>
+<link type="text/css" rel="stylesheet" href="darttictactoe.css">
+<script type="application/dart" src="darttictactoe.dart"></script>
+<script src="packages/browser/dart.js"></script>
+</head>
+<body>
+  <h1>Tic Tac Toe</h1>
 
-    <p>A Dart-based Tic Tac Toe Implementation</p>
+  <p>A Dart-based Tic Tac Toe Implementation</p>
 
-    <div id="container">
-      <canvas id="canvas" width="300" height="300"></canvas>
+  <div id="container">
+    <div id="login">
+
+      <p>Choose a nickname:</p>
+      <input id="nickname" type="text">
+      </text>
+      <button id="submitNickname" >submit</button>
+
     </div>
 
-    <footer>
-      <p id="summary">SUMMARY</p>
-      <p id="notes">NOTES</p>
-    </footer>
+    <div id="startscreen">
 
-    <script type="application/dart" src="darttictactoe.dart"></script>
-    <script src="packages/browser/dart.js"></script>
-  </body>
+      <p>joinable games...</p>
+      <table id="gameslist">
+        <thead>Name
+        </thead>
+        <tr>
+          <td>PlayerName1</td>
+        </tr>
+      </table>
+
+      <button id="joinGame">join</button>
+
+      <button id="createGame">create</button>
+    </div>
+
+    <div id="game">
+
+      <canvas id="board"></canvas>
+
+      <button id="abort">abort</button>
+    </div>
+  </div>
+
+  <footer>
+    <p id="summary">SUMMARY</p>
+    <p id="notes">NOTES</p>
+  </footer>
+
+</body>
 </html>
