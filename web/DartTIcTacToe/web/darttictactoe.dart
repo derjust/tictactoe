@@ -8,6 +8,10 @@ import 'dart:html';
 import 'dart:math';
 import '../lib/Client.dart';
 import '../lib/Enum.dart';
+import 'dart:async';
+
+WebSocket ws;
+
 
 const int MAX_D = 400;
 const int rows = 3;
@@ -31,7 +35,8 @@ int currentMove = 0;
 Client client = new Client("http://192.168.2.24:8080/TicTacWildfy-0.0.1-SNAPSHOT/rest");
 
 void main() {
-  startQuickLogging();
+//  initWebSocket();
+//  startQuickLogging();
   canvas.width = MAX_D;
   canvas.height = MAX_D;
   canvas.onMouseUp.listen(mouseDown);
@@ -243,4 +248,42 @@ void drawLine(num x1, num y1, num x2, num y2) {
 
 void _update(num highResTime) {
   draw(highResTime);
+}
+
+
+void outputMsg(String msg) {
+  print(msg);
+}
+
+void initWebSocket([int retrySeconds = 2]) {
+  var reconnectScheduled = false;
+
+  outputMsg("Connecting to websocket");
+  ws = new WebSocket('ws://192.168.2.24:8080/TicTacWildfy-0.0.1-SNAPSHOT');
+
+  void scheduleReconnect() {
+    if (!reconnectScheduled) {
+      new Timer(new Duration(milliseconds: 1000 * retrySeconds), () => initWebSocket(retrySeconds * 2));
+    }
+    reconnectScheduled = true;
+  }
+
+  ws.onOpen.listen((e) {
+    outputMsg('Connected');
+    ws.send('Hello from Dart!');
+  });
+
+  ws.onClose.listen((e) {
+    outputMsg('Websocket closed, retrying in $retrySeconds seconds');
+    scheduleReconnect();
+  });
+
+  ws.onError.listen((e) {
+    outputMsg("Error connecting to ws");
+    scheduleReconnect();
+  });
+
+  ws.onMessage.listen((MessageEvent e) {
+    outputMsg('Received message: ${e.data}');
+  });
 }
