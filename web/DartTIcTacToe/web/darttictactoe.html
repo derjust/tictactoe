@@ -9,6 +9,7 @@
 <meta charset="utf-8">
 <title>Tic Tac Toe Dart Frontend...</title>
 <link type="text/css" rel="stylesheet" href="darttictactoe.css">
+<link rel="stylesheet" href="packages/bootjack/css/bootstrap.min.css">
 <script type="application/dart" src="darttictactoe.dart"></script>
 <script src="packages/browser/dart.js"></script>
 </head>
@@ -23,7 +24,7 @@
       <p>Choose a nickname:</p>
       <input id="nickname" type="text">
       </text>
-      <button id="submitNickname" >submit</button>
+      <button class="btn btn-primary" id="submitNickname" >submit</button>
 
     </div>
 
@@ -34,9 +35,9 @@
         <option text="Test1"></select>
       </list>
 
-      <button id="joinGame">join</button>
+      <button class="btn btn-default" id="joinGame">join</button>
 
-      <button id="createGame">create</button>
+      <button class="btn btn-success" id="createGame">create</button>
     </div>
 
     <div id="game">
