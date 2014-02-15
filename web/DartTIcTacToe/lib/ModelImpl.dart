@@ -1,3 +1,5 @@
+library ModelImpl;
+
 import 'Model.dart';
 import 'Enum.dart';
 
