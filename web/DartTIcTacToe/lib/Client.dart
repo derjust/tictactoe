@@ -2,12 +2,12 @@ library Client;
 
 import 'package:logging/logging.dart'; 
 import 'package:logging_handlers/logging_handlers_shared.dart';
+
 import 'dart:html';
 import 'Model.dart';
 import 'ModelImpl.dart';
 import 'dart:convert';
 import 'Enum.dart';
-import 'dart:async';
 //409
 class BoardPosition {
   int col;
@@ -27,12 +27,13 @@ class Client {
     this.model = new ModelImpl();
   }
   
-  void createPlayer(String name) {
+  void createPlayer(String name, onSuccess(int)) {
     info("create player " + name);
       HttpRequest request = new HttpRequest(); // create a new XHR
       
       // add an event handler that is called when the request finishes
       request.onReadyStateChange.listen((_) {
+        
         if (request.readyState == HttpRequest.DONE &&
             (request.status == 200 || request.status == 0)) {
             // data saved OK.
@@ -42,8 +43,13 @@ class Client {
             int playerid = data["playerid"];
             info("created playerid " + playerid.toString());
             model.setPlayerId(playerid);
-          
+            
+            onSuccess(playerid);
+            
+        } else {
+          throw new Exception(request);
         }
+        
       });
 
       // POST the data to the server
@@ -98,7 +104,7 @@ class Client {
         
   }
   
-  void listGames() {
+  void listGames( onSuccess(List)) {
     HttpRequest request = new HttpRequest(); // create a new XHR
     
     // add an event handler that is called when the request finishes
@@ -116,7 +122,7 @@ class Client {
           }
           
           model.setGames(games);
-        
+          onSuccess(games);
       }
     });
 

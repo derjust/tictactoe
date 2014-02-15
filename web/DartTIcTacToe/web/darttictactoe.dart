@@ -51,21 +51,44 @@ void login(MouseEvent event) {
   
   InputElement nickname = querySelector("#nickname") as InputElement;
   
-  client.createPlayer(nickname.value);
+  client.createPlayer(nickname.value, loginDone);
   
+}
+
+void loginDone(int playerId) {
   //success
   container.children.remove(loginView);
   container.children.add(startscreenView);
   initStartscreenView();
+}
+
+
+void initStartscreenView() {
+  client.listGames(onListGamesDone);
+}
+
+void onListGamesDone(List<int> games) {
+  
+  querySelector("#gameList").children.clear();
+  for(int game in games) {
+    var newGame = new OptionElement();
+    newGame.value = game.toString();
+    newGame.text = "Game " + game.toString();
+    newGame.selected = false;
+    querySelector("#gameList").children.add(newGame);
+  }
   
 }
 
-void initStartscreenView() {
-  client.listGames();
-}
-
 void joinGame(MouseEvent event) {
-  //TODO get selected game and join
+  for( var gameElement in querySelector("#gameList").children) {
+    if((gameElement as OptionElement).selected) {
+      client.joinGame(gameElement.value);
+    }
+  }
+  
+  container.children.remove(startscreenView);
+  container.children.add(gameView);
 }
 
 void createGame(MouseEvent event) {
