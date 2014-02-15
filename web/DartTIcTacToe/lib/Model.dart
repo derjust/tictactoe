@@ -1,17 +1,16 @@
 import 'Enum.dart';
 
-
 abstract class Model {
   
-  void setGames(List<int> gameId);
-  List<int> getGames();
+  void setGames(List<String> gameId);
+  List<String> getGames();
   
  
-  void setGameId(int gameId);
-  int getGameId();
+  void setGameId(String gameId);
+  String getGameId();
   
-  void setPlayerId(int playerId);
-  int getPlayerId();
+  void setPlayerId(String playerId);
+  String getPlayerId();
   
   Enum getCell(int row, int column);
   setCell(int row, int column, Enum value);

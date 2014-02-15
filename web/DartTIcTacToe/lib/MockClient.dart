@@ -2,7 +2,6 @@ import 'Client.dart';
 
 class MockClient implements Client {
   
-  
   int createPlayer(String name) {
     return 1;
   }

@@ -1,38 +1,37 @@
 import 'Model.dart';
 import 'Enum.dart';
 
-
 class ModelImpl implements Model {
-  int gameId;
-  int playerId;
-  List<int> games;
+  String gameId;
+  String playerId;
+  List<String> games;
   
   ModelImpl() {
     resetCells();
   }
   
-  void setGames(List<int> gameId) {
-    
+  void setGames(List<String> games) {
+    this.games = games;
   }
   
-  List<int> getGames() {
+  List<String> getGames() {
     return games;
   }  
   
   
-  void setGameId(int gameId) {
+  void setGameId(String gameId) {
     this.gameId = gameId;
   }
   
-  int getGameId() {
+  String getGameId() {
     return this.gameId;
   }
   
-  void setPlayerId(int playerId) {
+  void setPlayerId(String playerId) {
     this.playerId = playerId;
   }
   
-  int getPlayerId() {
+  String getPlayerId() {
     return this.playerId;
   }
   

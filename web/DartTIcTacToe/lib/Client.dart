@@ -1,5 +1,4 @@
 import 'dart:html';
-import 'Model.dart';
 import 'ModelImpl.dart';
 import 'dart:convert';
 import 'Enum.dart';
@@ -28,7 +27,8 @@ class Client {
             print(request.responseText); // output the response from the server
           
             Map data = JSON.decode(request.responseText);
-          
+            String playerid = data["playerid"];
+            model.setPlayerId(playerid);
           
         } else {
           throw new Exception(request);
