@@ -2,14 +2,20 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-library sunflower;
+// library sunflower;
 
 import 'dart:html';
 import 'dart:svg';
+import '../lib/Client.dart';
+import '../lib/Enum.dart';
+import '../lib/Model.dart';
+import '../lib/ModelImpl.dart';
 
 final SvgElement svg = querySelector("#svg");
 
 int spacing = 50;
+
+Model model;
 
 getCircle(cx, cy, r){
   CircleElement circle = new CircleElement();
@@ -52,6 +58,7 @@ getX(x, y, width, height){
 int currentMove = 0;
 
 void main() {
+  model = new ModelImpl();
   drawGrid();
 }
 
@@ -66,7 +73,9 @@ void drawGrid(){
             ..setAttribute('height', spacing.toString())
             ..setAttribute('width', spacing.toString())
             ..setAttribute('fill', 'white')
-            ..setAttribute('opacity', '0');
+            ..setAttribute('opacity', '0')
+            ..setAttribute("column", i.toString())
+            ..setAttribute("row", j.toString());
           
         if(i < 2 && j > 1) {
           
@@ -104,18 +113,21 @@ void mouseDown(MouseEvent event) {
   
   RectElement rect = event.toElement;
   
+  int column = int.parse(rect.getAttribute("column"));
+  int row = int.parse(rect.getAttribute("row"));
+  
  if(currentMove % 2 == 0){
    int cx = int.parse(rect.getAttribute('x')) + 25;
    int cy = int.parse(rect.getAttribute('y')) + 25;
    double r = double.parse(rect.getAttribute('width'));
-   
+   model.setCell(row, column, Enum.O);
    rect.replaceWith(getCircle(cx, cy, (r / 2)));
  } else {
    int x1 = int.parse(rect.getAttribute('x'));
    int y1 = int.parse(rect.getAttribute('y'));
    int width = int.parse(rect.getAttribute("width"));
    int height = int.parse(rect.getAttribute("height"));
-   
+   model.setCell(row, column, Enum.X);   
    rect.replaceWith(getX(x1, y1, width, height));
  }
  
