@@ -46,8 +46,6 @@ class Client {
             
             onSuccess(playerid);
             
-        } else {
-          throw new Exception(request);
         }
         
       });
