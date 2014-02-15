@@ -37,21 +37,21 @@ void mouseDown(MouseEvent event) {
     
     
     if(currentMove % 2 == 0) {
-      drawCircle(calcRow(y) * BOX_SIZE, calcColumn(x) * BOX_SIZE);
+      drawCircle(calcRow(x) * BOX_SIZE, calcColumn(y) * BOX_SIZE);
     } else {
-      drawCross(calcRow(y) * BOX_SIZE, calcColumn(x) * BOX_SIZE);
+      drawCross(calcRow(x) * BOX_SIZE, calcColumn(y) * BOX_SIZE);
     }
     
     currentMove++;
   }
 }
 
-int calcRow(int y) {
-  return y ~/ BOX_SIZE;
+int calcRow(int x) {
+  return x ~/ BOX_SIZE;
 }
 
-int calcColumn(int x) {
-  return x ~/ BOX_SIZE;
+int calcColumn(int y) {
+  return y ~/ BOX_SIZE;
 }
 
 /// Draw the complete figure for the current number of seeds.
