@@ -69,9 +69,7 @@ class Client {
           int gameid = data["gameid"];
           model.setGameId(gameid);
         
-      } else {
-        throw new Exception(request);
-      }
+      } 
     });
 
     // POST the data to the server
@@ -113,17 +111,17 @@ class Client {
           List<String> games = new List();
           
           var data = JSON.decode(request.responseText);
-          for(var element in data.games ) {
+          for(var element in data ) {
             games.add(element["gameid"]);
           }
+          
+          model.setGames(games);
         
-      } else {
-        throw new Exception(request);
       }
     });
 
     // POST the data to the server
-    var url = baseUrl + " /game";
+    var url = baseUrl + "/game";
     request.open("GET", url, async: false);
     request.setRequestHeader("Content-type","application/json");
 
@@ -195,9 +193,7 @@ RESPONSE: [ moves: { { field: A1, playerid: 123 }, { field: B2, playerid: 456 } 
             }
           }
           
-      } else {
-        throw new Exception(request);
-      }
+      } 
     });
 
     // POST the data to the server
