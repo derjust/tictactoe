@@ -3,6 +3,10 @@ library ModelImpl;
 import 'Model.dart';
 import 'Enum.dart';
 
+import 'package:logging/logging.dart'; 
+import 'package:logging_handlers/logging_handlers_shared.dart';
+
+
 class ModelImpl implements Model {
   String gameId;
   String playerId;
@@ -43,6 +47,7 @@ class ModelImpl implements Model {
     return board[row][column];
   }
   setCell(int row, int column, Enum value) {
+    debug("Row: " + row + " column " + colum + " value: " + value);
     board[row][column] = value;
   }
   
