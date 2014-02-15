@@ -27,7 +27,7 @@ final DivElement gameView = querySelector("#game");
 
 int currentMove = 0;
 
-Client client = new Client("http://192.168.2.24:8080/tictactoe-web/simple.groovy");
+Client client = new Client("http://192.168.2.24:8080/TicTacWildfy-0.0.1-SNAPSHOT/rest");
 
 void main() {
   startQuickLogging();
