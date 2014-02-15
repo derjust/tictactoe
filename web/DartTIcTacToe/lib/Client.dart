@@ -178,7 +178,7 @@ class Client {
     // add an event handler that is called when the request finishes
     request.onReadyStateChange.listen((_) {
       if (request.readyState == HttpRequest.DONE &&
-          (request.status == 200 || request.status == 0)) {
+          (request.status == 202 || request.status == 0)) {
 /*
 URL: /game/{ gameid: 123 }/move
 
@@ -186,13 +186,14 @@ HTTP METHOD GET
 
 RESPONSE: [ moves: { { field: A1, playerid: 123 }, { field: B2, playerid: 456 } } ]
  */
-          Map data = JSON.decode(request.responseText);
-          Map move = data["moves"];
+        String json = request.responseText;
+          List data = JSON.decode(json);
           model.resetCells();
-          
-          int moveid = move["moveid"];
-
-          loadMove(moveid);
+          for(var element in data) {
+            int moveid= element["moveid"];
+            
+            loadMove(moveid);
+          }
                     
       } 
     });
@@ -224,7 +225,7 @@ RESPONSE: [ moves: { { field: A1, playerid: 123 }, { field: B2, playerid: 456 } 
   
   BoardPosition mapCellBack(String cell) {
     String row = cell.substring(0,1);
-    String col = cell.substring(1,1);
+    String col = cell.substring(1,2);
     BoardPosition retValue = new BoardPosition();
     if ("A".compareTo(row) == 0) {
       retValue.row= 0;
@@ -249,7 +250,7 @@ RESPONSE: [ moves: { { field: A1, playerid: 123 }, { field: B2, playerid: 456 } 
 
     // add an event handler that is called when the request finishes
     request.onReadyStateChange.listen((_) {
-      if (request.readyState == HttpRequest.DONE && (request.status == 200 ||
+      if (request.readyState == HttpRequest.DONE && (request.status == 202 ||
           request.status == 0)) {
         /*
 URL: /game/{ gameid: 123 }/move
@@ -259,7 +260,8 @@ HTTP METHOD GET
 RESPONSE: [ moves: { { field: A1, playerid: 123 }, { field: B2, playerid: 456 } } ]
  */
         String json = request.responseText;
-        Map move = JSON.decode(json);
+        var move = JSON.decode(json);
+        move = move[0];
         info("Move: $move");
 
         BoardPosition pos = mapCellBack(move["field"]);
