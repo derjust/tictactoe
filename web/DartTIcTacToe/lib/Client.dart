@@ -1,6 +1,7 @@
 library Client;
 
 import 'dart:html';
+import 'Model.dart';
 import 'ModelImpl.dart';
 import 'dart:convert';
 import 'Enum.dart';
