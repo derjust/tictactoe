@@ -73,7 +73,7 @@ class Client {
     });
 
     // POST the data to the server
-    var url = baseUrl + " /game";
+    var url = baseUrl + "/game";
     request.open("POST", url, async: false);
     request.setRequestHeader("Content-type","application/json");
 
