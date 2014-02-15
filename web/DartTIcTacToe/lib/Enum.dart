@@ -1,3 +1,5 @@
+library Enum;
+
 class Enum {
   final _value;
   const Enum._internal(this._value);

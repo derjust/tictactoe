@@ -1,3 +1,5 @@
+library Model;
+
 import 'Enum.dart';
 
 abstract class Model {

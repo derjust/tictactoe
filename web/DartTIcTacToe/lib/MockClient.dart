@@ -1,3 +1,5 @@
+library MockClient;
+
 import 'Client.dart';
 
 class MockClient implements Client {

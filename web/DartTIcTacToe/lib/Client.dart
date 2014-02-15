@@ -1,3 +1,5 @@
+library Client;
+
 import 'dart:html';
 import 'ModelImpl.dart';
 import 'dart:convert';
