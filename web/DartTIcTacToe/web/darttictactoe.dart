@@ -68,6 +68,7 @@ void draw(num dt) {
   dt = dt * 0.005;
   num vr = (dt % 10 - 5).abs();
   num vc = ((dt*0.8+5) % 10 - 5).abs();
+  num vcs = ((dt*1.5+3) % 6 - 3).abs();
 
   for (var r = 1; r < rows; r++) {
     drawLine(0, vr + r * BOX_SIZE, dt % 5 + MAX_D, r * BOX_SIZE - vr);    
@@ -82,36 +83,38 @@ void draw(num dt) {
 
       Enum value = client.getCell(r, c);
       if (value == Enum.O) {
-         drawCircle(c * BOX_SIZE, r * BOX_SIZE);
+         num size = CIRCLE_RADIUS + vcs - 3;
+         drawCircle(c * BOX_SIZE, r * BOX_SIZE, size);
        } else if (value == Enum.X){
-         drawCross(c * BOX_SIZE, r * BOX_SIZE);
+         num size = CROSS_RADIUS + vcs - 3;
+         drawCross(c * BOX_SIZE, r * BOX_SIZE, size);
        }
     }
   }
       
- // window.requestAnimationFrame(_update);
+ window.requestAnimationFrame(_update);
 }
 
 /// Draw a small circle representing a seed centered at (x,y).
-void drawCircle(num x, num y) {
+void drawCircle(num x, num y, num size) {
   x = x + BOX_SIZE / 2;
   y = y + BOX_SIZE / 2;
   
-  var gradient = context.createRadialGradient(x, y, CIRCLE_RADIUS - 5, x, y, CIRCLE_RADIUS + 5);
+  var gradient = context.createRadialGradient(x, y, size - 5, x, y, size + 5);
   gradient.addColorStop(0, 'gray');
   gradient.addColorStop(1, 'blue');
   
   context..beginPath()
          ..lineWidth = 10
          ..strokeStyle = gradient
-         ..arc(x, y, CIRCLE_RADIUS, 0, 2 * PI, false)
+         ..arc(x, y, size, 0, 2 * PI, false)
          ..closePath()
          ..stroke();
 }
 
 
 /// Draw a small circle representing a seed centered at (x,y).
-void drawCross(num x, num y) {
+void drawCross(num x, num y, num size) {
   
   x = x + BOX_SIZE / 2;
   y = y + BOX_SIZE / 2;
@@ -127,16 +130,16 @@ void drawCross(num x, num y) {
   context..beginPath()
          ..lineWidth = 10
          ..strokeStyle = gradient2
-         ..moveTo(x - CROSS_RADIUS, y - CROSS_RADIUS)
-         ..lineTo(x + CROSS_RADIUS, y + CROSS_RADIUS)
+         ..moveTo(x - size, y - size)
+         ..lineTo(x + size, y + size)
          ..closePath()
          ..stroke();
   
   context..beginPath()
          ..lineWidth = 10
          ..strokeStyle = gradient1
-         ..moveTo(x - CROSS_RADIUS, y + CROSS_RADIUS)
-         ..lineTo(x + CROSS_RADIUS, y - CROSS_RADIUS)
+         ..moveTo(x - size, y + size)
+         ..lineTo(x + size, y - size)
          ..closePath()
          ..stroke();
 }
