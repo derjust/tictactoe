@@ -93,7 +93,7 @@ class Client {
 
     // POST the data to the server
     var url = baseUrl + "/game/" + gameId;
-    request.open("POST", url, async: false);
+    request.open("PUT", url, async: false);
     request.setRequestHeader("Content-type","application/json");
     
     var mapData = new Map();
